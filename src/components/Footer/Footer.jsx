@@ -77,7 +77,7 @@ function Footer() {
           </ul>
         </div>
       </div>
-
+      <p className="footer__credit">Website Developed By Nadir Jamal</p>
     </footer>
   );
 }

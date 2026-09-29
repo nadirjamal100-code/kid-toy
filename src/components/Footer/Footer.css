@@ -96,6 +96,18 @@
   opacity: 0.9;
 }
 
+.footer__credit {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  left: 16px;
+  margin: 0;
+  color: #303b3b;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .footer { height:auto; min-height:566px; margin-top:12px; padding-top:36px; background-size:auto 566px; background-position:76% bottom; }
   .footer__grid {
