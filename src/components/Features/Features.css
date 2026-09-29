@@ -22,10 +22,10 @@
 @media(max-width:480px) {
   .features { padding:12px 0; }
   .features__grid { grid-template-columns:1fr; gap:10px; }
-  .feature { min-height:100px; height:100px; flex-direction:row; justify-content:flex-start; gap:14px; padding:12px 18px; text-align:left; }
-  .feature__icon-window { position:relative; width:68px; height:72px; flex:0 0 68px; margin:0; }
-  .feature__icon-window img { position:absolute; top:-4px; left:50%; height:115px; transform:translateX(-50%); }
-  .feature__copy { min-width:0; }
+  .feature { width:100%; min-width:0; min-height:100px; height:auto; flex-direction:row; justify-content:flex-start; gap:clamp(10px, 4vw, 16px); padding:12px clamp(12px, 4vw, 18px); text-align:left; }
+  .feature__icon-window { position:relative; width:clamp(64px, 20vw, 80px); height:clamp(64px, 20vw, 80px); flex:0 0 clamp(64px, 20vw, 80px); margin:0; }
+  .feature__icon-window img { position:absolute; top:50%; left:50%; width:65%; height:auto; max-width:100%; transform:translate(-50%, -50%); }
+  .feature__copy { min-width:0; flex:1; }
   .feature h4 { margin:0; font-size:16px; line-height:21px; }
   .feature p { margin-top:3px; font-size:13px; line-height:18px; }
 }

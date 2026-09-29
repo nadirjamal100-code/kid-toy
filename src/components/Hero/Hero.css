@@ -156,7 +156,7 @@
     font-size: 28px;
     line-height:1.15;
   }
-  .hero__inner { padding:28px 20px 0; }
+  .hero__inner { padding:28px 0 0; }
   .hero__content p { font-size:14px; line-height:1.45; margin-top:10px; }
   .hero__content .btn { margin-top:16px; height:46px; }
 }
