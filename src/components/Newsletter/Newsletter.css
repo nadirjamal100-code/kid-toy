@@ -1,0 +1,16 @@
+.newsletter.section { height:286px; padding:50px 0; }
+.newsletter__inner { text-align:center; max-width:724px; }
+.newsletter h2 { font-size:38px; line-height:46px; }
+.newsletter p { margin-top:10px; color:#555; font-size:20px; line-height:28px; }
+.newsletter__form { width:471px; height:50px; margin:24px auto 0; display:flex; justify-content:center; gap:12px; }
+.newsletter__form input { width:377px; flex:0 0 377px; padding:0 16px; border-radius:10px; border:1px solid #d9d9d9; font-family:var(--font-body); font-size:16px; outline:none; }
+.newsletter__form .btn { width:82px; height:50px; flex:0 0 82px; padding:0; background:#138db4; color:#fff; border-radius:15px; font-size:16px; font-weight:400; }
+.newsletter__form .btn:hover { background:var(--color-primary-dark); }
+@media(max-width:640px) {
+  .newsletter.section { height:auto; padding:36px 0; }
+  .newsletter h2 { font-size:28px; line-height:34px; }
+  .newsletter p { max-width:440px; margin:6px auto 0; font-size:14px; line-height:20px; }
+  .newsletter__form { width:min(100%,471px); height:44px; margin-top:18px; gap:8px; }
+  .newsletter__form input { min-width:0; height:44px; flex:1; padding:0 12px; font-size:13px; }
+  .newsletter__form .btn { height:44px; flex-basis:72px; width:72px; border-radius:12px; }
+}

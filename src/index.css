@@ -1,0 +1,160 @@
+:root {
+  /* Brand palette */
+  --color-primary: #0D91B8;      /* saturated sky blue */
+  --color-primary-dark: #087A9E;
+  --color-primary-light: #E9F7FA;
+  --color-accent-yellow: #FFEA00;
+  --color-accent-yellow-dark: #F5C531;
+  --color-sale: #EF5A6F;
+  --color-price: #38C92E;
+  --color-star: #FFB800;
+  --color-pink-bg: #FDEEF1;
+  --color-mint-bg: #E7F4EE;
+
+  --color-text: #223140;
+  --color-text-soft: #6B7A88;
+  --color-white: #FFFFFF;
+  --color-border: #E7ECEF;
+
+  --font-heading: 'Baloo 2', 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  /* 1240px of usable content plus the 24px side gutters */
+  --container-width: 1288px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 4px 16px rgba(34, 49, 64, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  margin: 0;
+  color: var(--color-text);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 50px 0;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-heading h2 {
+  font-size: 38px;
+  line-height: 46px;
+  font-weight: 700;
+  color: #191919;
+}
+
+.section-heading p {
+  color: var(--color-text-soft);
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--color-accent-yellow);
+  color: var(--color-text);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-yellow-dark);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 48px 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .section-heading h2 { font-size:clamp(26px, 4.4vw, 34px); line-height:1.15; }
+  .section-heading p { font-size:18px; line-height:24px; }
+}
+
+@media (max-width: 640px) {
+  .container { padding-left: 20px; padding-right: 20px; }
+  .section {
+    padding: 36px 0;
+  }
+  .section-heading h2 {
+    font-size: clamp(22px, 6vw, 28px);
+    line-height: 1.15;
+  }
+  .section-heading p {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+}

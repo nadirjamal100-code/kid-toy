@@ -1,0 +1,17 @@
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  .site-motion .product-card,
+  .site-motion .promo__card,
+  .site-motion .gallery__grid img,
+  .site-motion .blog-related-card,
+  .site-motion .contact-card,
+  .site-motion .blog-panel,
+  .site-motion .categories__item,
+  .site-motion .product-card__icon-btn,
+  .site-motion .btn,
+  .site-motion .contact-form button,
+  .site-motion .blog-pagination button,
+  .site-motion .header__search button,
+  .site-motion .faq-question,
+  .site-motion .header__nav a,
+  .site-motion .footer__col a { will-change:transform; }
+}

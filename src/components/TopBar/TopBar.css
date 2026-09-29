@@ -1,0 +1,59 @@
+.topbar {
+  background: #0D91B8;
+  color: var(--color-white);
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 10px;
+  background: radial-gradient(circle at 10px 0, var(--color-primary) 8px, transparent 8.5px) 0 0 / 20px 10px repeat-x;
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 51px;
+}
+
+.topbar__message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.topbar__links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.topbar__divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 640px) {
+  .topbar__inner { height:38px; gap:8px; }
+  .topbar { font-size:11px; }
+  .topbar__message { min-width:0; gap:4px; white-space:nowrap; font-size:11px; }
+  .topbar__links { flex:0 0 auto; gap:7px; font-size:11px; }
+  .topbar__icon { display:inline; }
+}
+
+@media (max-width: 360px) {
+  .topbar__inner { padding-left:12px; padding-right:12px; }
+  .topbar__message { font-size:10px; }
+  .topbar__links { font-size:10px; }
+}

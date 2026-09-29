@@ -1,0 +1,110 @@
+.footer {
+  margin-top:20px;
+  height:566px;
+  background-color: #d4ebe7;
+  background-image: url("../../assets/images/footer-background.png");
+  background-size: cover;
+  background-position: center bottom;
+  padding: 50px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 286px 234px minmax(0, 1fr);
+  gap: 32px;
+  padding-bottom: 300px;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.footer__brand p {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+  max-width: 260px;
+}
+
+.footer__socials {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+.footer__socials a {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #F06470;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+}
+
+.footer__socials svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footer__socials svg path {
+  fill: currentColor;
+  stroke: none;
+}
+
+.footer__socials .footer__social-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+.footer__col h4 {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.footer__col ul li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--color-text-soft);
+}
+
+.footer__col a {
+  color: var(--color-text-soft);
+}
+
+.footer__col a:hover {
+  color: var(--color-primary);
+}
+
+.footer__decor {
+  display: block;
+  margin: 0 auto;
+  width: 220px;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .footer { height:auto; min-height:566px; margin-top:12px; padding-top:36px; background-size:auto 566px; background-position:76% bottom; }
+  .footer__grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap:28px 20px;
+    padding-bottom:180px;
+  }
+  .footer__brand { grid-column:1/-1; }
+  .footer__col h4 { font-size:14px; margin-bottom:10px; }
+  .footer__col ul li { font-size:13px; line-height:1.4; margin-bottom:8px; }
+  .footer__socials { gap:8px; }
+}

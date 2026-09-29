@@ -1,0 +1,163 @@
+.hero {
+  background: #C3CBCE;
+  overflow: hidden;
+}
+
+.hero__inner {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 56.25vw, 810px);
+  max-width: none;
+  padding: 0;
+}
+
+.hero__image--desktop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__image--desktop img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.hero__image--mobile {
+  display: none;
+}
+
+/* The desktop reference banner includes its headline and supporting copy. Keep
+   the text in the document for accessibility without painting it twice. */
+.hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero__content h1,
+.hero__content p {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hero__content h1 {
+  font-size: 60px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.1;
+}
+
+.hero__content p {
+  margin-top: 18px;
+  font-size: 16px;
+  color: var(--color-text-soft);
+  max-width: 380px;
+}
+
+.hero__content .btn {
+  display: none;
+}
+
+.hero__desktop-cta {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% + 8px);
+  top: 49%;
+  width: clamp(160px, 13.9vw, 210px);
+  height: 8.1%;
+  border-radius: 999px;
+}
+
+@media (max-width: 1024px) {
+  .hero__content h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__content h1 { font-size:clamp(28px,6vw,38px); line-height:1.15; }
+  .hero__desktop-cta { display:none; }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+    height: auto;
+    min-height: auto;
+    padding: 32px 24px 0;
+  }
+
+  .hero__content h1,
+  .hero__content p {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+
+  .hero__content .btn {
+    display: inline-flex;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 176px;
+    height: 52px;
+    margin-top: 20px;
+    opacity: 1;
+  }
+
+  .hero__image--desktop {
+    display: none;
+  }
+
+  .hero__content {
+    position: relative;
+    order: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  .hero__image--mobile {
+    position: relative;
+    order: 2;
+    display: block;
+    width: 100%;
+  }
+
+  .hero__image--mobile img {
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .hero__content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__content h1 {
+    font-size: 28px;
+    line-height:1.15;
+  }
+  .hero__inner { padding:28px 20px 0; }
+  .hero__content p { font-size:14px; line-height:1.45; margin-top:10px; }
+  .hero__content .btn { margin-top:16px; height:46px; }
+}
+
