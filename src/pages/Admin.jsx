@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import './Admin.css';
 
-const API = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
+const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+const API = `${API_ORIGIN}/api`;
 const emptyProduct = { title:'', sku:'', barcode:'', brand:'', productType:'', price:'', oldPrice:'', image:'', images:'', description:'', features:'', specifications:'', categories:'', tags:'', ageRange:'', material:'', dimensions:'', weight:'', includedItems:'', safetyInformation:'', stock:'0' };
 
 function Admin() {
@@ -23,7 +24,9 @@ function Admin() {
     try {
       response = await fetch(`${API}${path}`, { ...options, headers:{ 'Content-Type':'application/json', ...(token ? { Authorization:`Bearer ${token}` } : {}), ...options.headers } });
     } catch {
-      throw new Error('Backend is unreachable. Set MONGODB_URI in server/.env, then start it with npm.cmd run server.');
+      const deployed = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+      if (deployed && !import.meta.env.VITE_API_URL) throw new Error('Production API URL is not configured. Deploy the backend, set VITE_API_URL in Vercel to the API URL, then redeploy this site.');
+      throw new Error(`Backend API is unreachable at ${API_ORIGIN}. Check that the API is deployed and that its FRONTEND_ORIGIN allows this site.`);
     }
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Request failed.');

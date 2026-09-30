@@ -23,7 +23,7 @@ services:
           name: kid-toy-api
           envVarKey: RENDER_EXTERNAL_URL
       - key: FRONTEND_ORIGIN
-        value: https://kid-toy-store.onrender.com
+        value: https://kid-toy.vercel.app
 
   - type: web
     name: kid-toy-store
