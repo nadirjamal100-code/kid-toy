@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
+import logo from '../assets/images/logo-brand.png';
 import './Admin.css';
 
 const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
@@ -92,7 +93,7 @@ function Admin() {
   }
   function logout() { sessionStorage.removeItem('rr-admin-token'); setToken(''); setProducts([]); setCustomers([]); setOrders([]); }
 
-  return <main className="admin-page"><header><a href="/">Rainbow Rattles</a><span>Store administration</span>{token && <button onClick={logout}>Sign out</button>}</header>
+  return <main className="admin-page"><header><a className="admin-brand" href="/" aria-label="Rainbow Rattles home"><img src={logo} alt="Rainbow Rattles" width="122" height="45" /></a><span>Store administration</span>{token && <button onClick={logout}>Sign out</button>}</header>
     {!token ? <form className="admin-login" onSubmit={login}><h1>Admin login</h1><label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label><label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>{error && <p className="admin-error">{error}</p>}<button>Log in</button></form> : <div className="admin-content">
       <nav className="admin-tabs"><button className={section === 'products' ? 'is-active' : ''} onClick={() => { setSection('products'); setError(''); }}>Products</button><button className={section === 'customers' ? 'is-active' : ''} onClick={async () => { setSection('customers'); setError(''); try { await loadCustomers(); } catch (e) { setError(e.message); } }}>Customers</button><button className={section === 'orders' ? 'is-active' : ''} onClick={async () => { setSection('orders'); setError(''); try { await loadOrders(); } catch (e) { setError(e.message); } }}>Orders</button></nav>
       {section === 'products' ? <>
