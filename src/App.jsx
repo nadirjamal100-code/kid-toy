@@ -9,10 +9,12 @@ import Blog from './pages/Blog.jsx';
 import BlogDetail from './pages/BlogDetail.jsx';
 import Contact from './pages/Contact.jsx';
 import FAQ from './pages/FAQ.jsx';
+import Admin from './pages/Admin.jsx';
 import SiteMotion from './components/SiteMotion/SiteMotion.jsx';
 
 function RouteContent() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/admin') return <Admin />;
   if (path === '/shop' || path === '/products') return <Shop />;
   if (path === '/blog' || path === '/news') return <Blog />;
   if (path.startsWith('/blog/')) return <BlogDetail />;

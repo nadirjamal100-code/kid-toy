@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TopBar from '../components/TopBar/TopBar.jsx';
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
@@ -90,6 +90,13 @@ function Sidebar({ activeCategory, onCategoryChange, priceRange, onPriceChange, 
 }
 
 function Shop({ activeCategory = null }) {
+  const [databaseProducts, setDatabaseProducts] = useState([]);
+  useEffect(() => {
+    const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    fetch(`${api}/api/products`).then((response) => response.ok ? response.json() : null).then((data) => {
+      if (data?.products) setDatabaseProducts(data.products.map((product) => ({ ...product, id:product._id, sale:Number(product.oldPrice) > Number(product.price) })));
+    }).catch(() => {});
+  }, []);
   const searchQuery = new URLSearchParams(window.location.search).get('q')?.trim() || '';
   const [selectedCategory, setSelectedCategory] = useState(activeCategory);
   const [priceRange, setPriceRange] = useState([20, 200]);
@@ -100,9 +107,10 @@ function Shop({ activeCategory = null }) {
   const [page, setPage] = useState(1);
   const selected = categories.find((category) => category.slug === selectedCategory);
   const title = selected?.name.replace('Eco- Friendly', 'Eco-Friendly') || extraCategoryNames[selectedCategory] || 'Products';
+  const allProducts = [...shopItems, ...databaseProducts];
   const categoryProducts = selectedCategory
-    ? [...shopItems.filter((product) => product.categories?.includes(selectedCategory)), ...(categoryExtras[selectedCategory] || [])]
-    : shopItems;
+    ? [...allProducts.filter((product) => product.categories?.includes(selectedCategory)), ...(categoryExtras[selectedCategory] || [])]
+    : allProducts;
   const catalogProducts = (!selectedCategory || selectedCategory === 'educational-toys') && categoryProducts.length
     ? Array.from({ length:24 }, (_, index) => ({ ...categoryProducts[index % categoryProducts.length], catalogKey:index }))
     : categoryProducts.map((product, index) => ({ ...product, catalogKey:index }));

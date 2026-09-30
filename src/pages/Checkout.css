@@ -47,6 +47,8 @@
 .checkout__card-fields > div { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .checkout__check { display:flex; align-items:center; gap:9px; margin-top:20px; color:#424242; font-size:13px; line-height:18px; }
 .checkout__paypal { min-height:40px; margin-top:7px; padding:0; border:0; color:#087db5; font-size:14px; font-style:italic; font-weight:800; }
+.checkout__cod { min-height:40px; margin-top:7px; padding:0; border:0; }
+.checkout__cod-note { margin:2px 0 0 26px; color:#777; font-size:12px; }
 .checkout__billing-fields { margin-top:18px; }
 .checkout__billing-fields h3 { font-size:16px; }
 .checkout__billing-fields .checkout__fields { margin-top:12px; }
@@ -56,6 +58,7 @@
 .checkout__empty { padding:16px 0; color:#666; font-size:14px; }
 .checkout__empty a { color:#148db6; text-decoration:underline; }
 .checkout__success { margin:-10px 0 18px; color:#16804f; font-size:14px; }
+.checkout__error { margin:-10px 0 18px; color:#b42318; font-size:14px; }
 .checkout-page + .footer { margin-top:20px; }
 
 @media (max-width:900px) {

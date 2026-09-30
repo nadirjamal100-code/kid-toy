@@ -78,7 +78,7 @@ function AuthPage({ mode = 'login' }) {
                 <button className="auth-card__submit" type="submit" disabled={busy}>{busy ? 'Please wait…' : isRegister ? 'Create account' : 'Log in'}</button>
               </form>
               <p className="auth-card__switch">{isRegister ? 'Already have an account?' : 'New to Rainbow Rattles?'} <a href={isRegister ? '/login' : '/register'}>{isRegister ? 'Log in' : 'Create an account'}</a></p>
-              <p className="auth-card__local-note">Your account is saved in this browser.</p>
+              <p className="auth-card__local-note">Your account is securely saved to our store database.</p>
             </>}
           </div>
         </section>

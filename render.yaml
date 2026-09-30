@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: kid-toy-api
+    runtime: node
+    buildCommand: npm ci
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: API_PUBLIC_URL
+        fromService:
+          type: web
+          name: kid-toy-api
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: FRONTEND_ORIGIN
+        value: https://kid-toy-store.onrender.com
+
+  - type: web
+    name: kid-toy-store
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: kid-toy-api
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -9,6 +9,41 @@ npm install
 npm run dev
 ```
 
+## Backend and database
+
+The backend uses Express and MongoDB. Put your Atlas URI in `MONGODB_URI` in
+`server/.env`, and set a private JWT secret and admin login credentials there.
+Do not commit `.env` or share its secrets. Start the API with `npm run server`
+and the storefront with `npm run dev`. Visit `/admin` on the Vite site to add,
+edit, and delete database products. For deployment, set `VITE_API_URL` to the
+backend origin when building the frontend.
+
+### Deploy from GitHub with Render
+
+The root `render.yaml` defines a Node web service for the API and a static
+site for the Vite frontend. Push this repository to GitHub, then in Render
+choose **New → Blueprint** and connect the repository. Render prompts for
+`MONGODB_URI`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD`, and generates `JWT_SECRET`.
+The blueprint configures the API CORS origin for
+`https://kid-toy-store.onrender.com`. If you change the static-site name or
+attach a custom domain, update `FRONTEND_ORIGIN` on the API service to the
+exact frontend origin. The API URL is wired into the frontend build.
+
+Set up MongoDB Atlas and allow the deployed API host to connect before using
+the site. Render's local filesystem is not durable for uploaded product images;
+use object storage or configure a persistent disk before relying on uploads.
+
+Products are in MongoDB; customer passwords are bcrypt-hashed; customer account
+details and authenticated orders are also stored in MongoDB. Admin can provide
+an image URL/path or upload a JPG, PNG, or WebP image up to 5 MB. Local uploads
+are served from `server/uploads/`; for deployment, configure durable object
+storage or a persistent volume and set `API_PUBLIC_URL`. The API provides
+`GET /api/products`, admin product CRUD, `/api/auth/register` and `/api/auth/login`,
+`GET/PATCH /api/account`, and `GET/POST /api/orders`. `/api/health` reports the
+database connection state. Checkout requires a signed-in account and products
+that exist in the database. Payment card fields are not stored or processed by
+this backend; connect a payment provider before accepting real payments.
+
 Build for production:
 
 ```bash

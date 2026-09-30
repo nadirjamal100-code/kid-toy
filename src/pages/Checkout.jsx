@@ -16,31 +16,46 @@ function PaymentMarks() {
 
 function Checkout() {
   const [items, setItems] = useState(getCartItems);
-  const [payment, setPayment] = useState('card');
+  const [payment, setPayment] = useState('cod');
   const [sameBilling, setSameBilling] = useState(true);
   const [placedOrder, setPlacedOrder] = useState(null);
+  const [orderError, setOrderError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const subtotal = placedOrder?.subtotal ?? items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = placedOrder?.shipping ?? (items.length ? 20 : 0);
   const total = placedOrder?.total ?? subtotal + shipping;
   const orderItems = placedOrder?.items ?? items;
 
-  function placeOrder(event) {
+  async function placeOrder(event) {
     event.preventDefault();
     if (!items.length) return;
-    const email = String(new FormData(event.currentTarget).get('email') || '');
-    const order = saveOrderForEmail(email, {
-      items:items.map(({ id, title, image, price, quantity }) => ({ id, title, image, price, quantity })),
-      subtotal, shipping, total,
-    });
-    setPlacedOrder(order);
-    setItems([]);
-    saveCartItems([]);
+    setOrderError('');
+    const checkoutForm = event.currentTarget;
+    const form = new FormData(checkoutForm);
+    const email = String(form.get('email') || '');
+    const shippingAddress = {
+      firstName:String(form.get('firstName') || '').trim(),
+      lastName:String(form.get('lastName') || '').trim(),
+      street:String(form.get('street') || '').trim(),
+      city:String(form.get('city') || '').trim(),
+      state:String(form.get('state') || '').trim(),
+      postalCode:String(form.get('postalCode') || '').trim(),
+      phone:String(form.get('phone') || '').trim(),
+      email,
+      notes:String(form.get('notes') || '').trim(),
+    };
+    setSubmitting(true);
+    try {
+      const order = await saveOrderForEmail(email, { items:items.map(({ productId, title, image, price, quantity }) => ({ productId:productId || null, title, image, price, quantity })), subtotal, shipping, total, paymentMethod:payment, shippingAddress });
+      setPlacedOrder(order); setItems([]); saveCartItems([]); checkoutForm.reset();
+    } catch (error) { setOrderError(error.message || 'We could not place this order.'); }
+    finally { setSubmitting(false); }
   }
 
   const field = (label, placeholder, options = {}) => (
     <label className={`checkout__field${options.wide ? ' checkout__field--wide' : ''}`}>
       <span>{label} *</span>
-      {options.select ? <select required defaultValue=""><option value="" disabled>{placeholder}</option>{options.values.map((value) => <option key={value}>{value}</option>)}</select> : options.textarea ? <textarea placeholder={placeholder} /> : <input required type={options.type || 'text'} placeholder={placeholder} />}
+      {options.select ? <select name={options.name} required defaultValue=""><option value="" disabled>{placeholder}</option>{options.values.map((value) => <option key={value}>{value}</option>)}</select> : options.textarea ? <textarea name={options.name} placeholder={placeholder} /> : <input name={options.name} required type={options.type || 'text'} placeholder={placeholder} />}
     </label>
   );
 
@@ -52,21 +67,22 @@ function Checkout() {
         <nav className="checkout__breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Checkout</span></nav>
         <h1>Check out</h1>
         {placedOrder && <p className="checkout__success" role="status">Order {placedOrder.id} placed successfully. You can review it in <a href="/account">My account</a>.</p>}
+        {orderError && <p className="checkout__error" role="alert">{orderError} {orderError.includes('log in') && <a href="/login">Log in</a>}</p>}
         <div className="checkout__layout">
           <div className="checkout__left">
             <section className="checkout__panel checkout__delivery" aria-labelledby="delivery-heading">
               <h2 id="delivery-heading">Delivery info</h2>
               <form id="checkout-form" onSubmit={placeOrder}>
                 <div className="checkout__fields">
-                  {field('First name', 'Join')}
-                  {field('Last name', 'Gray')}
-                  {field('Street address', 'Address', { wide:true })}
-                  {field('Town / City', 'City', { select:true, values:['New York','Los Angeles','Chicago','Houston','Other'] })}
-                  {field('State', 'State', { select:true, values:['New York','California','Illinois','Texas','Other'] })}
-                  {field('ZIP code', 'Zip code')}
-                  {field('Phone', '(1230) 456-7868', { type:'tel' })}
+                  {field('First name', 'Join', { name:'firstName' })}
+                  {field('Last name', 'Gray', { name:'lastName' })}
+                  {field('Street address', 'Address', { wide:true, name:'street' })}
+                  {field('Town / City', 'City', { name:'city', select:true, values:['New York','Los Angeles','Chicago','Houston','Other'] })}
+                  {field('State', 'State', { name:'state', select:true, values:['New York','California','Illinois','Texas','Other'] })}
+                  {field('ZIP code', 'Zip code', { name:'postalCode' })}
+                  {field('Phone', '(1230) 456-7868', { name:'phone', type:'tel' })}
                   <label className="checkout__field checkout__field--wide"><span>Email address *</span><input name="email" type="email" autoComplete="email" placeholder="Example@youremail.com" required /></label>
-                  {field('Order notes (optional)', 'Notes about your order, e.g. special notes for delivery.', { textarea:true, wide:true })}
+                  {field('Order notes (optional)', 'Notes about your order, e.g. special notes for delivery.', { name:'notes', textarea:true, wide:true })}
                 </div>
               </form>
             </section>
@@ -86,7 +102,9 @@ function Checkout() {
               {!sameBilling && <div className="checkout__billing-fields"><h3>Billing address</h3><div className="checkout__fields">{field('Street address', 'Address', { wide:true })}{field('Town / City', 'City')}{field('ZIP code', 'Zip code')}</div></div>}
               <label className="checkout__check"><input type="checkbox" checked={sameBilling} onChange={(event) => setSameBilling(event.target.checked)} /><span>Use shipping address as billing address</span></label>
               <label className="checkout__payment-option checkout__paypal"><input type="radio" name="payment" value="paypal" checked={payment === 'paypal'} onChange={() => setPayment('paypal')} /><span>PayPal</span></label>
-              <button className="checkout__place-order" type="submit" form="checkout-form" disabled={!items.length}>Place order</button>
+              <label className="checkout__payment-option checkout__cod"><input type="radio" name="payment" value="cod" checked={payment === 'cod'} onChange={() => setPayment('cod')} /><span>Cash on delivery</span></label>
+              {payment === 'cod' && <p className="checkout__cod-note">Pay in cash when your order is delivered.</p>}
+              <button className="checkout__place-order" type="submit" form="checkout-form" disabled={!items.length || submitting}>{submitting ? 'Placing order…' : 'Place order'}</button>
             </section>
           </div>
 

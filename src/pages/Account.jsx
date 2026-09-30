@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TopBar from '../components/TopBar/TopBar.jsx';
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
@@ -12,7 +12,7 @@ function Account() {
   const [tab, setTab] = useState('overview');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [orders, setOrders] = useState(() => user ? getOrdersForEmail(user.email) : []);
+  const [orders, setOrders] = useState([]);
   const [details, setDetails] = useState(() => ({
     name:user?.name || '', email:user?.email || '', phone:user?.phone || '',
     address:{ ...emptyAddress, ...(user?.address || {}) },
@@ -20,6 +20,10 @@ function Account() {
   }));
 
   const totalSpent = useMemo(() => orders.reduce((total, order) => total + Number(order.total || 0), 0), [orders]);
+
+  useEffect(() => {
+    if (user) getOrdersForEmail(user.email).then(setOrders).catch((loadError) => setError(loadError.message));
+  }, [user]);
 
   function updateField(event) {
     const { name, value } = event.target;
@@ -32,15 +36,15 @@ function Account() {
     } else setDetails((current) => ({ ...current, [name]:value }));
   }
 
-  function saveDetails(event) {
+  async function saveDetails(event) {
     event.preventDefault();
     setError('');
     setMessage('');
     try {
-      const updated = updateAccountDetails(details);
+      const updated = await updateAccountDetails(details);
       setUser(updated);
       setDetails((current) => ({ ...current, ...updated }));
-      setOrders(getOrdersForEmail(updated.email));
+      setOrders(await getOrdersForEmail(updated.email));
       setMessage('Your account details have been saved.');
     } catch (saveError) {
       setError(saveError.message || 'We could not save your details. Please try again.');

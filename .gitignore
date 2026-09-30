@@ -2,3 +2,7 @@ node_modules
 dist
 .DS_Store
 *.local
+server/.env
+server/data/store.json
+server/data/store.json.tmp
+server/uploads/
